@@ -1,0 +1,98 @@
+[gd_scene load_steps=3 format=3 uid="uid://b6xadbpny0483"]
+
+[ext_resource type="Script" path="res://Board.gd" id="1_f2g63"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6jlo6"]
+bg_color = Color(0, 0, 0, 1)
+
+[node name="Board" type="Control"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_f2g63")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="VBoxContainer"]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -40.5
+offset_top = -25.0
+offset_right = 40.5
+offset_bottom = 25.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/Panel/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="WinLen" type="Label" parent="VBoxContainer/Panel/VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "3"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="VBoxContainer/Panel/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "in a row"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Panel/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="VBoxContainer/Panel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Turn:"
+
+[node name="Turn" type="Label" parent="VBoxContainer/Panel/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "XO"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_6jlo6")
+
+[node name="CentralGrid" type="MarginContainer" parent="VBoxContainer/PanelContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="ColorRect" type="ColorRect" parent="VBoxContainer/PanelContainer/CentralGrid"]
+layout_mode = 2
+color = Color(0.847059, 0.835294, 0.662745, 1)
+
+[node name="SquareGrid" type="GridContainer" parent="VBoxContainer/PanelContainer"]
+unique_name_in_owner = true
+layout_mode = 2

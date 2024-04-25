@@ -1,0 +1,68 @@
+[gd_scene load_steps=4 format=3 uid="uid://pk80fauswqvw"]
+
+[ext_resource type="Script" path="res://Square.gd" id="1_kw6ky"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_577yf"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tfhao"]
+bg_color = Color(0, 0, 0, 1)
+
+[node name="Square" type="PanelContainer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -22.5
+offset_top = -22.5
+offset_right = 22.5
+offset_bottom = 22.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_577yf")
+script = ExtResource("1_kw6ky")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+custom_minimum_size = Vector2(45, 45)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/margin_left = 1
+theme_override_constants/margin_top = 1
+theme_override_constants/margin_right = 1
+theme_override_constants/margin_bottom = 1
+
+[node name="Panel" type="Panel" parent="MarginContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_tfhao")
+
+[node name="StateLabel" type="Label" parent="MarginContainer/Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "xo"
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
+[node name="Border" type="ColorRect" parent="."]
+visible = false
+layout_mode = 2
+mouse_filter = 2
+color = Color(1, 1, 1, 0.431373)
+
+[connection signal="mouse_entered" from="MarginContainer/Panel" to="." method="_on_panel_mouse_entered"]
+[connection signal="mouse_exited" from="MarginContainer/Panel" to="." method="_on_panel_mouse_exited"]
