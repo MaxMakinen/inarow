@@ -30,7 +30,7 @@ func _on_panel_mouse_entered() -> void:
 
 
 func _on_panel_mouse_exited() -> void:
-	print("ecit")
+	print("exit")
 	border.hide()
 	border.modulate = Color.WHITE
 	highlighted = false
@@ -40,7 +40,7 @@ func _input(event: InputEvent) -> void:
 	if highlighted == true:
 		if event.is_action_released("left_click"):
 			if clicked == false:
-				_set_state()
+				_set_state(Global.get_turn())
 				border.hide()
 				Global.change_turn()
 				state_changed.emit()
@@ -48,10 +48,11 @@ func _input(event: InputEvent) -> void:
 				# TODO : Add effect for invalid move
 				pass
 
-func _set_state() -> void:
+func _set_state(new_state) -> void:
 	clicked = true
+	state_int = new_state
 	state_label.modulate = color
-	state_label.text = STATE[Global.get_turn()]
+	state_label.text = STATE[new_state]
 
 func get_state() -> int:
 	return state_int
