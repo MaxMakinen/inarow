@@ -12,7 +12,7 @@ const SQUARE = preload("res://square.tscn")
 
 var grid_size: int
 var grid_state: Array
-
+enum {EMPTY, PLAYER_X, PLAYER_O}
 
 func set_grid_size(new_grid_size: int) -> void:
 	grid_size = new_grid_size
@@ -47,9 +47,14 @@ func _board_change() -> void:
 	for row in grid_size:
 		for col in grid_size:
 			grid_state[row][col] = square_grid.get_child(row * grid_size + col).get_state()
+#	if Global.get_turn() == 2:
+#		ai_make_move()
+#		if _check_for_win():
+#			_declare_win()
+##		Global.change_turn()
+#		return
 	if _check_for_win():
-		print("WINNER!!!")
-		get_tree().change_scene_to_file("res://win_screen.tscn")
+		_declare_win()
 
 func _check_for_win() -> bool:
 	var temp_arr: Array = []
@@ -68,6 +73,20 @@ func _check_for_win() -> bool:
 		if _check_array(temp_arr[0]) == true or _check_array(temp_arr[1]) == true:
 			return true
 	return false
+
+
+func _check_draw() -> bool:
+	var empty_squares: Array = []
+	for row in range(grid_size):
+		for col in range(grid_size):
+			if grid_state[row][col] == 0:
+				empty_squares.append(0)
+	if empty_squares.size() > 0:
+		return false
+	return true
+
+func _declare_win() -> void:
+	get_tree().change_scene_to_file("res://win_screen.tscn")
 
 
 func _check_array(row: Array) -> bool:
@@ -106,4 +125,67 @@ func _display_turn() -> void:
 		turn.text = "X"
 	else:
 		turn.text = "O"
+
+
+func ai_make_move() -> void:
+	#var best_move: Vector2 = minimax(grid_state.duplicate(), PLAYER_O)["move"]
+	var best_move: Vector2 = _find_best_move()
+	grid_state[best_move.x][best_move.y] = square_grid.get_child(best_move.x * grid_size + best_move.y).set_state()
+
+
+func minimax(board_state: Array, player: int, depth: int) -> Dictionary:
+	if _check_for_win():
+		if Global.get_turn() == player:
+			return {"score": 10, "move": Vector2(-1, -1)}
+		else:
+			return {"score": -10, "move": Vector2(-1, -1)}
+	if _check_draw():
+		return {"score": 0, "move": Vector2(-1, -1)}
+	
+	var best_score = -1000 if player == PLAYER_O else 1000
+	var best_move = null
+
+	for i in range(grid_size):
+		for j in range(grid_size):
+			if board_state[i][j] == EMPTY:
+				board_state[i][j] = player
+				var result = minimax(board_state, PLAYER_O if player == PLAYER_X else PLAYER_X, depth + 1)
+				board_state[i][j] = EMPTY
+
+				var score = result["score"] 
+				if player == PLAYER_O:
+					if score > best_score:
+						best_score = score
+						best_move = Vector2(i, j)
+				else:
+					if score < best_score:
+						best_score = score
+						best_move = Vector2(i, j)
+	if best_move == null:
+		best_move = Vector2(-1, -1)
+	return {"score": best_score, "move": best_move}
+
+
+func _find_best_move() -> Vector2:
+	var bestVal: int = -1000
+	var bestMove: Vector2 = Vector2(-1, -1)
+	
+	for row in range(grid_size):
+		for col in range(grid_size):
+			if grid_state[row][col] == 0:
+				# Make move
+				grid_state[row][col] = PLAYER_O
+				
+				# Evaluate move
+				var result = minimax(grid_state.duplicate(), PLAYER_O, 0)
+				var moveVal = result["score"]
+				# Undo move
+				grid_state[row][col] = EMPTY
+				# If current moveVal is better than bestVal, then update best
+				if moveVal > bestVal:
+					bestMove = result["move"]
+					bestVal = moveVal
+	print("Best Move = ", bestMove)
+	return bestMove
+
 
