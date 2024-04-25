@@ -40,10 +40,9 @@ func _input(event: InputEvent) -> void:
 	if highlighted == true:
 		if event.is_action_released("left_click"):
 			if clicked == false:
-				state_int = Global.get_turn()
 				_set_state()
-				Global.change_turn()
 				border.hide()
+				Global.change_turn()
 				state_changed.emit()
 			if clicked == true:
 				# TODO : Add effect for invalid move
@@ -52,7 +51,7 @@ func _input(event: InputEvent) -> void:
 func _set_state() -> void:
 	clicked = true
 	state_label.modulate = color
-	state_label.text = STATE[state_int]
+	state_label.text = STATE[Global.get_turn()]
 
 func get_state() -> int:
 	return state_int
