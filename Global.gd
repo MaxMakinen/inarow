@@ -1,11 +1,29 @@
 extends Node
 
+# Board size and state
 var board_size: int = 5
+var grid_size: int
+var grid_state: Array
+
 var player_turn: int = 1
 var winner: String = ""
 var win_len = 3
 const P1_COLOR: Color = Color.FIREBRICK
 const P2_COLOR: Color = Color.DARK_GREEN
+
+
+func get_grid_size() -> int:
+	return grid_size
+
+func set_grid_size(new_size: int) -> void:
+	grid_size = new_size
+
+
+func get_grid_state() -> Array:
+	return grid_state
+
+func set_grid_state(new_state: Array) -> void:
+	grid_state = new_state
 
 
 func set_winner(win_int: int) -> void:
